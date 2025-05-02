@@ -1,0 +1,48 @@
+/* Reset & Layout */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: sans-serif;
+  padding: 1rem;
+  max-width: 400px;
+  margin: auto;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+h1 { font-size: 1.5rem; }
+
+/* Sections */
+section { margin-top: 1rem; }
+
+/* Timer Display */
+#timerDisplay {
+  font-size: 2.5rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+/* Buttons */
+button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Inputs */
+input {
+  width: 100%;
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  font-size: 1rem;
+}
+
+/* Today’s total */
+#todayTotal {
+  font-weight: bold;
+}
