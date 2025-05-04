@@ -1,4 +1,5 @@
-// ===== Element References =====
+const statusDisplay = document.getElementById('statusDisplay');
+const startTimeElement = document.getElementById('startTime');
 const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw0qqnD-_3Pa0fNL5GtOssGDj_LHDJRCKQ7mM9abF7qoiU-qHY4VV809mU4lCG12GXhzg/exec';
 const authSection = document.getElementById('authSection');
 const dashboard = document.getElementById('dashboard');
@@ -99,6 +100,16 @@ auth.onAuthStateChanged(user => {
 function startTimerUI() {
   clearInterval(timerInt);
   sessionStartTime = Date.now();
+  
+  // Format and display start time
+  const startTimeDate = new Date();
+  startTimeElement.textContent = startTimeDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  
+  // Update status display
+  statusDisplay.textContent = 'Currently Working';
+  statusDisplay.classList.remove('inactive', 'break');
+  statusDisplay.classList.add('active');
+  
   timerInt = setInterval(() => {
     const now = Date.now();
     const elapsed = elapsedBeforePause + (now - sessionStartTime);
@@ -114,13 +125,27 @@ function startTimerUI() {
 function pauseTimerUI() {
   clearInterval(timerInt);
   elapsedBeforePause += Date.now() - sessionStartTime;
+  
+  // Update status display
+  statusDisplay.textContent = 'On Break';
+  statusDisplay.classList.remove('active', 'inactive');
+  statusDisplay.classList.add('break');
 
   breakBtn.hidden = true;
   resumeBtn.hidden = false;
+  startBtn.hidden = true; // Ensure start button is hidden during break
 }
 
 function stopTimerUI() {
   clearInterval(timerInt);
+
+  // Update status display
+  statusDisplay.textContent = 'Not Working';
+  statusDisplay.classList.remove('active', 'break');
+  statusDisplay.classList.add('inactive');
+  
+  // Reset start time display
+  startTimeElement.textContent = '--:--';
 
   startBtn.hidden = false;
   breakBtn.hidden = true;
@@ -196,22 +221,20 @@ clockoutBtn.onclick = async () => {
     .update({ endTime: firebase.firestore.FieldValue.serverTimestamp() });
   sessionId = null;                   // ← allow Start Work again
 
-  // 3) Update the UI
-  // 3) Update the UI, but don’t zero it:
-  pauseTimerUI();             // stops the interval, keeps elapsedBeforePause
-  startBtn.hidden    = false;
-  breakBtn.hidden    = true;
-  resumeBtn.hidden   = true;
-  clockoutBtn.hidden = true;
+  // 3) Update the UI - Use stopTimerUI to properly reset everything
+  stopTimerUI();
+  
+  // 4) Update today's total immediately
   await updateTodayTotal();
 
-  // 4) Log to Google Sheet
+  // 5) Log to Google Sheet
   await sendSummaryToSheet(endedSessionId);  // ← pass the ID
 
-  // 5) Clean up the daily‐total interval and logout if desired
+  // 6) Clean up the daily‐total interval and logout if desired
   if (dailyTotalInterval) {
     clearInterval(dailyTotalInterval);
     dailyTotalInterval = null;
+    dailyTotalInterval = setInterval(updateTodayTotal, 60_000);
   }
 };
 
@@ -327,5 +350,14 @@ async function sendSummaryToSheet(sessionDocId) {
   }
 }
 
-
+window.addEventListener('beforeunload', function(e) {
+  // Check if user is currently working (not on break and not clocked out)
+  if (sessionId && !breakRef) {
+    // Cancel the event
+    e.preventDefault();
+    // Chrome requires returnValue to be set
+    e.returnValue = 'You are still clocked in. Do you want to leave without clocking out?';
+    return 'You are still clocked in. Do you want to leave without clocking out?';
+  }
+});
 

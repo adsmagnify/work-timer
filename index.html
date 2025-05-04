@@ -12,29 +12,103 @@
 </head>
 <body>
   <header>
-    <h1>Work Timer</h1>
-    <button id="logoutBtn" hidden>Logout</button>
+    <div class="container header-content">
+      <div class="logo-container">
+        <div class="logo"><img src="C:\Users\ADMIN\Desktop\work-timer/adsmagnify_logo.jpeg" alt="adsmagnify logo"></div>
+        <h1 class="company-name">adsmagnify.com</h1>
+      </div>
+      <div class="user-info">
+        <button id="logoutBtn" hidden>Logout</button>
+      </div>
+    </div>
   </header>
 
-  <!-- Authentication Section -->
-  <section id="authSection">
-    <input type="email" id="email" placeholder="Email" />
-    <input type="password" id="password" placeholder="Password" />
-    <button id="loginBtn">Login</button>
-    <button id="registerBtn">Register</button>
-  </section>
+  <main class="container">
+    <!-- Authentication Section -->
+    <section id="authSection" class="auth-card">
+      <h2>Sign In</h2>
+      <div class="input-group">
+        <input type="email" id="email" placeholder="Email" />
+      </div>
+      <div class="input-group">
+        <input type="password" id="password" placeholder="Password" />
+      </div>
+      <div class="btn-group">
+        <button id="loginBtn" class="btn">Login</button>
+        <button id="registerBtn" class="btn secondary">Register</button>
+      </div>
+    </section>
 
-  <!-- Timer Dashboard (hidden until login) -->
-  <section id="dashboard" hidden>
-    <div id="timerDisplay">00:00:00</div>
-    <button id="startBtn">Start Work</button>
-    <button id="breakBtn" hidden>Take Break</button>
-    <button id="resumeBtn" hidden>Resume Work</button>
-    <button id="clockoutBtn" hidden>Clock Out</button>
-    <div>Today’s Total: <span id="todayTotal">0h 0m</span></div>
-  </section>
+    <!-- Timer Dashboard (hidden until login) -->
+    <section id="dashboard" hidden>
+      <div class="tracker-card">
+        <div class="status inactive" id="statusDisplay">Not Working</div>
+        <div class="timer" id="timerDisplay">00:00:00</div>
+        <div class="controls">
+          <div class="btn-group">
+            <button class="btn start" id="startBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Start Work
+            </button>
+            <button class="btn pause" id="breakBtn" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="6" y="4" width="4" height="16"></rect>
+                <rect x="14" y="4" width="4" height="16"></rect>
+              </svg>
+              Take Break
+            </button>
+            <button class="btn start" id="resumeBtn" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+              </svg>
+              Resume Work
+            </button>
+            <button class="btn stop" id="clockoutBtn" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              </svg>
+              Clock Out
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="summary">
+        <div class="summary-header">
+          <span>Today's Summary</span>
+          <span id="currentDate"></span>
+        </div>
+        <div class="summary-content">
+          <div class="summary-item">
+            <div class="summary-label">Start Time</div>
+            <div class="summary-time" id="startTime">--:--</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Total Today</div>
+            <div class="summary-time" id="todayTotal">0h 0m</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2025 Work Timer. All rights reserved.
+    </div>
+  </footer>
 
   <script src="js/firebase-config.js"></script>
   <script src="js/app.js"></script>
+  <script>
+    // Set current date in the summary header
+    document.addEventListener('DOMContentLoaded', function() {
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const today = new Date();
+      document.getElementById('currentDate').textContent = today.toLocaleDateString(undefined, options);
+    });
+  </script>
 </body>
 </html>
