@@ -1,7 +1,8 @@
 // ===== Element References =====
 const statusDisplay = document.getElementById('statusDisplay');
 const startTimeElement = document.getElementById('startTime');
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw0qqnD-_3Pa0fNL5GtOssGDj_LHDJRCKQ7mM9abF7qoiU-qHY4VV809mU4lCG12GXhzg/exec';
+//const SHEET_URL = 'https://script.google.com/macros/s/AKfycbw0qqnD-_3Pa0fNL5GtOssGDj_LHDJRCKQ7mM9abF7qoiU-qHY4VV809mU4lCG12GXhzg/exec';
+const SHEET_URL = 'https://script.google.com/a/macros/adsmagnify.in/s/AKfycbx6VSyceApe4BX8uME4b2M3A4WOlZVrs2Qni5cvkmJRPxbN3lGFebwY5gLrFjlPxrceDg/exec';
 const authSection = document.getElementById('authSection');
 const dashboard = document.getElementById('dashboard');
 const emailInput = document.getElementById('email');
@@ -336,12 +337,13 @@ async function sendSummaryToSheet(sessionDocId) {
   });
   const totalToday = msToHMS(dailyMs);
 
-  const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe3-0Ty41UD4kmJDfIsDsCdcITCHVwuXdXVFM-EZaY7TUV9aQ/formResponse';
+  //const formUrl = 'https://docs.google.com/forms/d/e/1FAIpQLSe3-0Ty41UD4kmJDfIsDsCdcITCHVwuXdXVFM-EZaY7TUV9aQ/formResponse';
+  const formUrl = 'https://docs.google.com/forms/d/1vPoNjEo73AxnQK85Sj-oBxbjJYPIQAxISbv8uUEC_l0/formResponse';
   const formData = new URLSearchParams();
-  formData.append('entry.851716110', name);
-  formData.append('entry.1407039982', ci);
-  formData.append('entry.1613621228', co);
-  formData.append('entry.628581510', totalToday);
+  formData.append('entry.1491324230', name);//entry.851716110
+  formData.append('entry.502494241', ci);//entry.1407039982
+  formData.append('entry.324745445', co);//entry.1613621228
+  formData.append('entry.1264062933', totalToday);//entry.628581510
 
   try {
     await fetch(formUrl, {
