@@ -29,16 +29,19 @@ let dailyTotalInterval = null;   // guard for the 1-min updater
 
 
 async function fetchRandomQuote() {
+  const quoteSection = document.getElementById('quoteSection');
   try {
-    // returns an array with one object: [{ q: "…", a: "…" }]
-    const res = await fetch('https://zenquotes.io/api/random');
-    const [quote] = await res.json();
-    quoteSection.textContent = `“${quote.q}” — ${quote.a}`;
+    const res = await fetch('https://dummyjson.com/quotes/random');
+    if (!res.ok) throw new Error(res.status);
+    const { quote, author } = await res.json();
+    quoteSection.textContent = `“${quote}” — ${author}`;
   } catch (err) {
     console.error('Quote fetch failed:', err);
-    quoteSection.textContent = '';
+    quoteSection.textContent = '“Stay focused and never give up.”';
   }
 }
+
+
 // ===== UI Mode Controller =====
 let currentMode = 'initial';
 function setMode(mode) {
