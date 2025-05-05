@@ -376,3 +376,10 @@ html, body {
   margin-bottom: 0.2rem;
   text-align: center;
 }
+
+.quote-section {
+  font-style: italic;
+  text-align: center;
+  margin: 0.5rem 0 1rem;
+  color: #555;
+}

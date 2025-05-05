@@ -9,6 +9,8 @@ const passInput = document.getElementById('password');
 const loginBtn = document.getElementById('loginBtn');
 const registerBtn = document.getElementById('registerBtn');
 const logoutBtn = document.getElementById('logoutBtn');
+const quoteSection = document.getElementById('quoteSection');
+
 
 const timerDisplay = document.getElementById('timerDisplay');
 const startBtn = document.getElementById('startBtn');
@@ -25,6 +27,18 @@ let sessionId = null;   // track active session
 let breakRef = null;   // track in-progress break
 let dailyTotalInterval = null;   // guard for the 1-min updater
 
+
+async function fetchRandomQuote() {
+  try {
+    // returns an array with one object: [{ q: "…", a: "…" }]
+    const res = await fetch('https://zenquotes.io/api/random');
+    const [quote] = await res.json();
+    quoteSection.textContent = `“${quote.q}” — ${quote.a}`;
+  } catch (err) {
+    console.error('Quote fetch failed:', err);
+    quoteSection.textContent = '';
+  }
+}
 // ===== UI Mode Controller =====
 let currentMode = 'initial';
 function setMode(mode) {
@@ -70,6 +84,10 @@ registerBtn.onclick = () => {
 
 logoutBtn.onclick = async () => {
   // Close any active break
+  if (sessionId) {
+    alert('⚠️ Please clock out before logging out.');
+    return;
+  }
   if (breakRef) {
     await breakRef.update({ breakEnd: firebase.firestore.FieldValue.serverTimestamp() });
     const snap = await breakRef.get();
@@ -108,11 +126,13 @@ auth.onAuthStateChanged(user => {
     if (!dailyTotalInterval) {
       dailyTotalInterval = setInterval(updateTodayTotal, 60_000);
     }
+    fetchRandomQuote();  
   } else {
     authSection.hidden = false;
     dashboard.hidden = true;
     logoutBtn.hidden = true;
     setMode('initial');
+    quoteSection.textContent = '';
   }
 });
 
@@ -333,6 +353,7 @@ async function sendSummaryToSheet(sessionDocId) {
   }
 }
 
+
 // ===== Prevent Close While Working =====
 window.addEventListener('beforeunload', function (e) {
   if (currentMode === 'working') {
@@ -341,3 +362,6 @@ window.addEventListener('beforeunload', function (e) {
     return 'You are still clocked in. Do you want to leave without clocking out?';
   }
 });
+
+
+
