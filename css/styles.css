@@ -1,16 +1,17 @@
 /* Reset & Layout */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: sans-serif;
-  padding: 1rem;
-  max-width: 400px;
-  margin: auto;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 h1 { font-size: 1.5rem; }
 
@@ -80,17 +81,19 @@ body {
 }
 
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1rem;
   width: 100%;
+  height: 100%;
+  max-width: 700px;    /* you can raise this if you want a wider max */
+  margin: 0 auto;
+  padding: 1rem;
+  padding-top: 0.2rem;
   box-sizing: border-box;
 }
 
 header {
   background-color: var(--card);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 }
 
 .header-content {
@@ -117,8 +120,11 @@ header {
   font-weight: bold;
   font-size: 1.25rem;
 }
-img{
-  width: 200px;
+.logo img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .company-name {
@@ -185,11 +191,11 @@ input[type="password"]:focus {
   border-radius: 16px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 10px 15px rgba(0, 0, 0, 0.03);
   width: 100%;
-  max-width: 700px;
-  padding: 2.5rem;
+  max-width: none;
+  padding: 1.5rem;
   text-align: center;
   transition: all 0.3s ease;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .status {
@@ -288,18 +294,19 @@ input[type="password"]:focus {
   border-radius: 12px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
   overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .summary-header {
   background-color: #f3f4f6;
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   display: flex;
   justify-content: space-between;
 }
 
 .summary-content {
-  padding: 1rem 1.5rem;
+  padding: 0.5rem 1rem;
 }
 
 .summary-item {
@@ -324,7 +331,7 @@ input[type="password"]:focus {
 footer {
   background-color: var(--card);
   border-top: 1px solid var(--border);
-  padding: 1.5rem 0;
+  padding: 0.75rem 0;
   text-align: center;
   font-size: 0.875rem;
   color: #6b7280;
@@ -354,4 +361,18 @@ footer {
   .btn {
     width: 100%;
   }
+}
+[hidden] {
+  display: none !important;
+}
+html, body {
+  overflow-x: hidden;
+}
+
+.user-greeting {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-top:0;
+  margin-bottom: 0.2rem;
+  text-align: center;
 }
